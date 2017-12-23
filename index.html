@@ -2,9 +2,69 @@
 <html>
 
 <head>
+
+<!--Import Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+<!--Let browser know website is optimized for mobile-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 </head>
 
 <body>
+  <script type='text/javascript'>
+  var todo_item_html = "\
+    <div class='todo_item'>\
+    <div class='todo_status'>\
+      <img src=''/>\
+    </div>\
+    <div class='todo_content'>\
+      <span>Some text here...</span>\
+    </div>\
+    </div>"
+  </script>
+  <!--Import jQuery before materialize.js-->
+  <script type='text/javascript' src='todo.js'/>
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+
+  <div class='navbar-fixed'>
+    <nav class='grey darken-3'>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">&nbsp;&nbsp;Project Portal</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="sass.html">Test</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div id='workspace' class='row'>
+    <div id='project_list' class='col s3 grey' style='padding-bottom: 100%; margin-bottom: -100%;'>
+      <ul>
+        <li>
+          <div class="userView">
+              <a href="#!name"><span class="name">John Doe</span></a>
+              <a href="#!email"><span class="email">jdandturk@gmail.com</span></a>
+          </div>
+        </li>
+        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+        <li><a href="#!">Second Link</a></li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">Subheader</a></li>
+        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+      </ul>
+    </div>
+
+    <div id='project' class='col s4 grey darken-3 white-text' style='padding-bottom: 100%; margin-bottom: -100%;'>
+      &nbsp;
+    </div>
+
+    <div id='todo' class='col s5 grey' style='padding-bottom: 100%; margin-bottom: -100%;'>
+    </div>
+  </div>
 </body>
 
 </html>
