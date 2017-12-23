@@ -40,6 +40,6 @@ class TodoItem
 
 
 }
-var TodoItem.NEW = 'NEW';
-var TodoItem.ACTIVE = 'ACTIVE';
-var TodoItem.COMPLETE = 'COMPLETE';
+TodoItem.NEW = 'NEW';
+TodoItem.ACTIVE = 'ACTIVE';
+TodoItem.COMPLETE = 'COMPLETE';
