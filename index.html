@@ -15,8 +15,15 @@
 .fixed-action-btn {
   float: right;
   position: relative;
-  left: 0px;
+  margin-left:auto;
+  margin-right: 0px;
   bottom: 0px;
+}
+.row .col {
+  min-height: calc(100vh - 64px);
+}
+.col-container {
+  margin-bottom:0;
 }
 </style>
 
@@ -31,7 +38,7 @@
   <div class='navbar-fixed'>
     <nav class='grey darken-4'>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo">&nbsp;&nbsp;Project Portal</a>
+        <a href="#" class="brand-logo">&nbsp;&nbsp;Work_space</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="sass.html">Test</a></li>
         </ul>
@@ -39,43 +46,33 @@
     </nav>
   </div>
 
-  <div id='workspace' class='row white-text'>
-    <div id='project_list' class='col s3 grey darken-3' style='padding-bottom: 100%; margin-bottom: -100%;'>
-      <div style='padding-bottom: 100%; margin-bottom: -100%;'>
-        <ul>
-          <li>
-            <div class="userView">
-              <span class="name">John Doe</span>
-              <span class="email">jdandturk@gmail.com</span>
-            </div>
-          </li>
-          <li><i class="material-icons">cloud</i>First Link With Icon</li>
-          <li>Second Link</a></li>
-          <li><div class="divider"></div></li>
-          <li>Subheader</li>
-          <li>Third Link With Waves</li>
-        </ul>
+  <div id='workspace' class='row white-text col-container'>
+
+    <div id='project_list' class='col s3 grey darken-3' style=''>
+      <h5>Projects</h5>
+      <div class='collection'>
+        <a class="collection-item"><i class="material-icons">cloud</i>&nbsp;First Link With Icon</a>
+        <a class="collection-item">Second Link</a>
+        <div class="divider"></div>
+        <a class="collection-item">Subheader</a>
+        <a class="collection-item">Third Link With Waves</a>
       </div>
 
-      <div class="fixed-action-btn">
-        <a class="btn-floating btn-large red">
-          <i class="large material-icons">mode_edit</i>
-        </a>
-        <ul>
-          <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-          <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-          <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-          <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-        </ul>
-      </div>
+      <a class="btn-floating btn-large waves-effect waves-light teal" style='margin-top: auto'>
+        <i class="material-icons">add</i>
+      </a>
     </div>
 
-    <div id='project' class='col s4 grey darken-4' style='padding-bottom: 100%; margin-bottom: -100%;'>
+    <div id='project' class='col s4 grey darken-4' style=''>
+      <h5>{ProjectName}</h5>
+      <h5>ProjectFiles</h5>
+      <h5>Assets</h5>
+    </div>
+
+    <div id='todo' class='col s5 grey darken-3' style=''>
       &nbsp;
     </div>
 
-    <div id='todo' class='col s5 grey darken-3' style='padding-bottom: 100%; margin-bottom: -100%;'>
-    </div>
   </div>
 </body>
 
