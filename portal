@@ -15,8 +15,9 @@
 <body>
   <!--Import jQuery before materialize.js-->
   <script src="js/jquery.js"></script>
-  <script src="js/materialize.min.js"></script>
+  <script src="js/materialize.js"></script>
   <script src='js/model.js'></script>
+  <script src='js/view.js'></script>
   <script src='js/controler.js'></script>
 
   <div id='toolbar' class='navbar-fixed' style="position: absolute">
@@ -24,25 +25,27 @@
       <div class="nav-wrapper">
         <a href="#" class="brand-logo" style='padding-left: 1rem;'>Portal</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="#"></a></li>
+          <li><a href="project-portal://">Test</a></li>
         </ul>
       </div>
     </nav>
   </div>
 
+  <!-- Workspace UI -->
   <div id='workspace' class='row white-text col-container'>
-    <div id='project_list' class='col s3 grey darken-3' style=''>
+
+    <div id='project_pane' class='col s3 grey darken-3 z-depth-5' style=''>
       <div class='navbar-fixed'></div>
       <h5>Projects</h5>
-      <ul class='collection'>
-        <li class="collection-item grey darken-3"><i class="material-icons">cloud</i>First Link With Icon</li>
-        <li class="collection-item grey darken-3">Second Link</li>
-        <li class="collection-item grey darken-3">Subheader</li>
-        <li class="collection-item grey darken-3">Third Link With Waves</li>
+      <ul id='project_list' class='collection'>
+        <li class="collection-item grey darken-3 waves-effect waves-light"><i class="material-icons">cloud</i>First Link With Icon</li>
+        <li class="collection-item grey darken-3 waves-effect waves-light">Second Link</li>
+        <li class="collection-item grey darken-3 waves-effect waves-light">Subheader</li>
+        <li class="collection-item grey darken-3 waves-effect waves-light">Third Link With Waves</li>
       </ul>
     </div>
 
-    <div id='project_pane' class='col s4 grey darken-4 z-depth-4' style=''>
+    <div id='file_pane' class='col s4 grey darken-4 z-depth-0' style=''>
       <div class='navbar-fixed'></div>
       <h5>Project Name</h5>
       <ul class="collapsible" data-collapsible="expandable">
@@ -52,7 +55,9 @@
             <span>Project Files</span>
             <i id='expand' class="material-icons scale-transition" style='margin-left: auto; margin-right: 0;'>expand_more</i>
           </div>
-          <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+          <div class="collapsible-body">
+            <span>Lorem ipsum dolor sit amet.</span>
+          </div>
         </li>
         <li>
           <div class="collapsible-header grey darken-4">
@@ -60,12 +65,14 @@
             <span>Assets</span>
             <i id='expand' class="material-icons scale-transition" style='margin-left: auto; margin-right: 0;'>expand_more</i>
           </div>
-          <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+          <div class="collapsible-body">
+            <span>Lorem ipsum dolor sit amet.</span>
+          </div>
         </li>
       </ul>
     </div>
 
-    <div id='todo_pane' class='col s5 grey darken-3 z-depth-4' style=''>
+    <div id='todo_pane' class='col s5 grey darken-3 z-depth-5' style=''>
       <div class='navbar-fixed'></div>
       <h5>ToDo:</h5>
       <ul id='todo' class="collection black-text z-depth-3" style='margin: 1rem'>
@@ -98,20 +105,85 @@
         </li>
       </ul>
     </div>
-
-    <div class="fixed-action-btn">
-      <div class="btn-floating btn-large z-depth-4">
-        <i class="large material-icons">add</i>
-      </div>
-      <ul>
-        <li id='add_todo'><a class="btn-floating blue z-depth-2" title="ToDo"><i class="material-icons">mode_edit</i></a></li>
-        <li id='add_folder'><a class="btn-floating green z-depth-2" title="Folder"><i class="material-icons">folder_open</i></a></li>
-        <li id='add_file'><a class="btn-floating red z-depth-2" title="File"><i class="material-icons">insert_drive_file</i></a></li>
-        <li id='add_project'><a href='project-portal://' class="btn-floating blue z-depth-2" title="Project"><i class="material-icons">dashboard</i></a></li>
-      </ul>
-    </div>
-
   </div>
+
+  <!-- Fixed Action Button -->
+  <div class="fixed-action-btn click-to-toggle">
+    <a class="btn-floating btn-large z-depth-4">
+      <i class="large material-icons">add</i>
+    </a>
+    <ul>
+      <li id='add_todo' class='tooltipped' data-position="left" data-delay="10" data-tooltip="ToDo">
+        <a class="btn-floating blue waves-effect waves-light modal-trigger z-depth-2" href='#todo_modal'>
+          <i class="material-icons">mode_edit</i>
+        </a>
+      </li>
+      <li id='add_folder' class='tooltipped' data-position="left" data-delay="10" data-tooltip="Folder">
+        <a class="btn-floating green waves-effect waves-light modal-trigger z-depth-2" href='#folder_modal'>
+          <i class="material-icons">folder_open</i>
+        </a>
+      </li>
+      <li id='add_file' class='tooltipped' data-position="left" data-delay="10" data-tooltip="File">
+        <a class="btn-floating red waves-effect waves-light modal-trigger z-depth-2" href='#file_modal'>
+          <i class="material-icons">insert_drive_file</i>
+        </a>
+      </li>
+      <li id='add_project' class='tooltipped' data-position="left" data-delay="10" data-tooltip="Project">
+        <a class="btn-floating blue waves-effect waves-light modal-trigger z-depth-2" href='#project_modal'>
+          <i class="material-icons">dashboard</i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Modals -->
+  <div id="todo_modal" class="modal">
+    <div class="modal-content">
+      <h4>ToDo Item:</h4>
+      <div class="input-field">
+        <input id="todo_title" type="text" class="validate">
+        <label for="title">Title</label>
+      </div>
+      <div class="input-field">
+        <input id="todo_description" type="text" class="validate">
+        <label for="description">Description</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+    </div>
+  </div>
+
+  <div id="folder_modal" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+  <div id="file_modal" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+  <div id="project_modal" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
 </body>
 
 </html>

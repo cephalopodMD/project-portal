@@ -27,7 +27,7 @@ class Project
     this.name = name;
     this.file_list = [];
     this.folder_list = [];
-    this.todos = new TodoList();
+    this.todos = new Todos();
 
     this.save()
   }
@@ -60,9 +60,10 @@ class ToDos
 
 class TodoItem
 {
-  constructor(name)
+  constructor(title, description)
   {
-    this.name = name;
+    this.title = title;
+    this.description = description;
     this.status = TodoItem.NEW;
   }
 
