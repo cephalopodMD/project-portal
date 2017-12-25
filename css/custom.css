@@ -1,12 +1,15 @@
 .row .col {
   min-height: 100vh;
 }
+
 .col-container {
   margin-bottom:0;
 }
+
 .collection, .collapsible {
   border:none;
 }
+
 .collection-item {
   display: -webkit-box !important;
   display: -webkit-flex !important;
@@ -15,6 +18,7 @@
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
+
 .collection-item i {
   width: 2rem;
   font-size: 1.6rem;

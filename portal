@@ -14,12 +14,12 @@
 
 <body>
   <!--Import jQuery before materialize.js-->
-  <script src='js/todo.js'></script>
   <script src="js/jquery.js"></script>
   <script src="js/materialize.min.js"></script>
+  <script src='js/model.js'></script>
   <script src='js/controler.js'></script>
 
-  <div class='navbar-fixed' style="position: absolute">
+  <div id='toolbar' class='navbar-fixed' style="position: absolute">
     <nav class='grey darken-4'>
       <div class="nav-wrapper">
         <a href="#" class="brand-logo" style='padding-left: 1rem;'>Portal</a>
