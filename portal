@@ -38,16 +38,12 @@
       <div class='navbar-fixed'></div>
       <h5>Projects</h5>
       <ul id='project_list' class='collection'>
-        <li class="collection-item grey darken-3 waves-effect waves-light"><i class="material-icons">cloud</i>First Link With Icon</li>
-        <li class="collection-item grey darken-3 waves-effect waves-light">Second Link</li>
-        <li class="collection-item grey darken-3 waves-effect waves-light">Subheader</li>
-        <li class="collection-item grey darken-3 waves-effect waves-light">Third Link With Waves</li>
       </ul>
     </div>
 
     <div id='file_pane' class='col s4 grey darken-4 z-depth-0' style=''>
       <div class='navbar-fixed'></div>
-      <h5>Project Name</h5>
+      <h5 id='selected_project_title'>Project Name</h5>
       <ul class="collapsible" data-collapsible="expandable">
         <li>
           <div class="collapsible-header grey darken-4">
@@ -75,34 +71,7 @@
     <div id='todo_pane' class='col s5 grey darken-3 z-depth-5' style=''>
       <div class='navbar-fixed'></div>
       <h5>ToDo:</h5>
-      <ul id='todo' class="collection black-text z-depth-3" style='margin: 1rem'>
-        <li class="collection-item avatar todo waves-effect">
-          <i class="material-icons circle grey status">radio_button_unchecked</i>
-          <p>
-            <span class="title">Title</span>
-            <br>
-            Description
-          </p>
-          <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>
-        </li>
-        <li class="collection-item avatar todo waves-effect">
-          <i class="material-icons circle blue status">radio_button_checked</i>
-          <p>
-            <span class="title">Title</span>
-            <br>
-            Description
-          </p>
-          <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>
-        </li>
-        <li class="collection-item avatar todo waves-effect">
-          <i class="material-icons circle green status">check</i>
-          <p>
-            <span class="title">Title</span>
-            <br>
-            Description
-          </p>
-          <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>
-        </li>
+      <ul id='todo_list' class="collection black-text z-depth-3" style='margin: 1rem'>
       </ul>
     </div>
   </div>
@@ -160,7 +129,7 @@
       <p>A bunch of text</p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
     </div>
   </div>
 
@@ -170,17 +139,20 @@
       <p>A bunch of text</p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
     </div>
   </div>
 
   <div id="project_modal" class="modal">
     <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
+      <h4>Project:</h4>
+      <div class="input-field">
+        <input id="project_title" type="text" class="validate">
+        <label for="title">Title</label>
+      </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
     </div>
   </div>
 
