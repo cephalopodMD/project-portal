@@ -2,31 +2,14 @@
 <html>
 
 <head>
-
 <!--Import Google Icon Font-->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!--Import materialize.css-->
 <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="css/custom.css"/>
 
 <!--Let browser know website is optimized for mobile-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<style>
-.fixed-action-btn {
-  float: right;
-  position: relative;
-  margin-left:auto;
-  margin-right: 0px;
-  bottom: 0px;
-}
-.row .col {
-  min-height: calc(100vh - 64px);
-}
-.col-container {
-  margin-bottom:0;
-}
-</style>
-
 </head>
 
 <body>
@@ -34,11 +17,12 @@
   <script src='js/todo.js'></script>
   <script src="js/jquery.js"></script>
   <script src="js/materialize.min.js"></script>
+  <script src='js/controler.js'></script>
 
-  <div class='navbar-fixed'>
+  <div class='navbar-fixed' style="position: absolute">
     <nav class='grey darken-4'>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo">&nbsp;&nbsp;Work_space</a>
+        <a href="#" class="brand-logo" style='padding-left: 1rem;'>Portal</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="sass.html">Test</a></li>
         </ul>
@@ -47,30 +31,84 @@
   </div>
 
   <div id='workspace' class='row white-text col-container'>
-
     <div id='project_list' class='col s3 grey darken-3' style=''>
+      <div class='navbar-fixed'></div>
       <h5>Projects</h5>
-      <div class='collection'>
-        <a class="collection-item"><i class="material-icons">cloud</i>&nbsp;First Link With Icon</a>
-        <a class="collection-item">Second Link</a>
-        <div class="divider"></div>
-        <a class="collection-item">Subheader</a>
-        <a class="collection-item">Third Link With Waves</a>
+      <ul class='collection'>
+        <li class="collection-item grey darken-3"><i class="material-icons">cloud</i>First Link With Icon</li>
+        <li class="collection-item grey darken-3">Second Link</li>
+        <li class="collection-item grey darken-3">Subheader</li>
+        <li class="collection-item grey darken-3">Third Link With Waves</li>
+      </ul>
+    </div>
+
+    <div id='project_pane' class='col s4 grey darken-4 z-depth-4' style=''>
+      <div class='navbar-fixed'></div>
+      <h5>Project Name</h5>
+      <ul class="collapsible" data-collapsible="expandable">
+        <li>
+          <div class="collapsible-header grey darken-4">
+            <i class="material-icons">filter_drama</i>
+            <span>Project Files</span>
+            <i id='expand' class="material-icons scale-transition" style='margin-left: auto; margin-right: 0;'>expand_more</i>
+          </div>
+          <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+        </li>
+        <li>
+          <div class="collapsible-header grey darken-4">
+            <i class="material-icons">place</i>
+            <span>Assets</span>
+            <i id='expand' class="material-icons scale-transition" style='margin-left: auto; margin-right: 0;'>expand_more</i>
+          </div>
+          <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div id='todo_pane' class='col s5 grey darken-3 z-depth-4' style=''>
+      <div class='navbar-fixed'></div>
+      <h5>ToDo:</h5>
+      <ul id='todo' class="collection black-text z-depth-3" style='margin: 1rem'>
+        <li class="collection-item avatar todo waves-effect">
+          <i class="material-icons circle grey status">radio_button_unchecked</i>
+          <p>
+            <span class="title">Title</span>
+            <br>
+            Description
+          </p>
+          <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>
+        </li>
+        <li class="collection-item avatar todo waves-effect">
+          <i class="material-icons circle blue status">radio_button_checked</i>
+          <p>
+            <span class="title">Title</span>
+            <br>
+            Description
+          </p>
+          <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>
+        </li>
+        <li class="collection-item avatar todo waves-effect">
+          <i class="material-icons circle green status">check</i>
+          <p>
+            <span class="title">Title</span>
+            <br>
+            Description
+          </p>
+          <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>
+        </li>
+      </ul>
+    </div>
+
+    <div class="fixed-action-btn">
+      <div class="btn-floating btn-large z-depth-4">
+        <i class="large material-icons">add</i>
       </div>
-
-      <a class="btn-floating btn-large waves-effect waves-light teal" style='margin-top: auto'>
-        <i class="material-icons">add</i>
-      </a>
-    </div>
-
-    <div id='project' class='col s4 grey darken-4' style=''>
-      <h5>{ProjectName}</h5>
-      <h5>ProjectFiles</h5>
-      <h5>Assets</h5>
-    </div>
-
-    <div id='todo' class='col s5 grey darken-3' style=''>
-      &nbsp;
+      <ul>
+        <li id='add_todo'><a class="btn-floating blue z-depth-2" title="ToDo"><i class="material-icons">mode_edit</i></a></li>
+        <li id='add_folder'><a class="btn-floating green z-depth-2" title="Folder"><i class="material-icons">folder_open</i></a></li>
+        <li id='add_file'><a class="btn-floating red z-depth-2" title="File"><i class="material-icons">insert_drive_file</i></a></li>
+        <li id='add_project'><a href='project-portal://' class="btn-floating blue z-depth-2" title="Project"><i class="material-icons">dashboard</i></a></li>
+      </ul>
     </div>
 
   </div>
