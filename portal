@@ -5,7 +5,7 @@
 <!--Import Google Icon Font-->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!--Import materialize.css-->
-<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
 <link type="text/css" rel="stylesheet" href="css/custom.css"/>
 
 <!--Let browser know website is optimized for mobile-->
@@ -18,14 +18,14 @@
   <script src="js/materialize.js"></script>
   <script src='js/model.js'></script>
   <script src='js/view.js'></script>
-  <script src='js/controler.js'></script>
 
-  <div id='toolbar' class='navbar-fixed' style="position: absolute">
+  <!-- Navbar -->
+  <div id='toolbar' class='navbar-fixed' style="position: absolute; z-index: 998;">
     <nav class='grey darken-4'>
       <div class="nav-wrapper">
         <a href="#" class="brand-logo" style='padding-left: 1rem;'>Portal</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="project-portal://">Test</a></li>
+          <li><a href="project-portal://asdf/">Test</a></li>
         </ul>
       </div>
     </nav>
@@ -75,6 +75,7 @@
       </ul>
     </div>
   </div>
+  <script src='js/controler.js'></script>
 
   <!-- Fixed Action Button -->
   <div class="fixed-action-btn click-to-toggle">
@@ -83,22 +84,22 @@
     </a>
     <ul>
       <li id='add_todo' class='tooltipped' data-position="left" data-delay="10" data-tooltip="ToDo">
-        <a class="btn-floating blue waves-effect waves-light modal-trigger z-depth-2" href='#todo_modal'>
+        <a class="btn-floating blue waves-effect waves-light modal-trigger z-depth-2">
           <i class="material-icons">mode_edit</i>
         </a>
       </li>
       <li id='add_folder' class='tooltipped' data-position="left" data-delay="10" data-tooltip="Folder">
-        <a class="btn-floating green waves-effect waves-light modal-trigger z-depth-2" href='#folder_modal'>
+        <a class="btn-floating green waves-effect waves-light modal-trigger z-depth-2">
           <i class="material-icons">folder_open</i>
         </a>
       </li>
       <li id='add_file' class='tooltipped' data-position="left" data-delay="10" data-tooltip="File">
-        <a class="btn-floating red waves-effect waves-light modal-trigger z-depth-2" href='#file_modal'>
+        <a class="btn-floating red waves-effect waves-light modal-trigger z-depth-2">
           <i class="material-icons">insert_drive_file</i>
         </a>
       </li>
       <li id='add_project' class='tooltipped' data-position="left" data-delay="10" data-tooltip="Project">
-        <a class="btn-floating blue waves-effect waves-light modal-trigger z-depth-2" href='#project_modal'>
+        <a class="btn-floating blue waves-effect waves-light modal-trigger z-depth-2">
           <i class="material-icons">dashboard</i>
         </a>
       </li>
@@ -110,12 +111,12 @@
     <div class="modal-content">
       <h4>ToDo Item:</h4>
       <div class="input-field">
-        <input id="todo_title" type="text" class="validate">
-        <label for="title">Title</label>
+        <input id="todo_modal_title" type="text" class="validate">
+        <label for="todo_modal_title">Title</label>
       </div>
       <div class="input-field">
-        <input id="todo_description" type="text" class="validate">
-        <label for="description">Description</label>
+        <input id="todo_modal_description" type="text" class="validate">
+        <label for="todo_modal_description">Description</label>
       </div>
     </div>
     <div class="modal-footer">
@@ -147,8 +148,8 @@
     <div class="modal-content">
       <h4>Project:</h4>
       <div class="input-field">
-        <input id="project_title" type="text" class="validate">
-        <label for="title">Title</label>
+        <input id="project_modal_title" type="text" class="validate">
+        <label for="project_modal_title">Title</label>
       </div>
     </div>
     <div class="modal-footer">

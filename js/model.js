@@ -26,6 +26,11 @@ class Project
     localStorage.setItem( 'project_portal:'+this.title, JSON.stringify(this) );
   }
 
+  remove()
+  {
+    localStorage.removeItem( 'project_portal:'+this.title );
+  }
+
   init(title)
   {
     this.title = title;

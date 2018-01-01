@@ -1,11 +1,25 @@
 'use strict';
 
+var local_list = [],
+    project_name_list = [],
+    projects = {},
+    selected_project = null;
+
+var select_project = function(p_name)
+{
+  if ( selected_project != null )
+    selected_project.save();
+  selected_project = projects[p_name];
+  $('#selected_project_title').text(p_name)
+  $('#todo_list').empty()
+  for ( var todo_item of selected_project.todos ) {
+    $('#todo_list').append( todo_item_html(todo_item) );
+  }
+}
+
 $(document).ready(function()
 {
-  var local_list = localStorage.getItem('project_portal_list'),
-      project_name_list = [],
-      project_dict = {},
-      selected_project = null;
+  local_list = localStorage.getItem('project_portal_list');
   if ( local_list === null ) {
     localStorage.setItem( 'project_portal_list', JSON.stringify( project_name_list) );
   } else {
@@ -17,11 +31,11 @@ $(document).ready(function()
   }
   for ( var project_name of project_name_list ) {
     var project = new Project(project_name);
-    project_dict[project_name] = project;
+    projects[project_name] = project;
     $('#project_list').append( project_html(project) )
   }
-  if ( project_list.length > 0 )
-    selected_project = project_list[0];
+  if ( project_name_list.length > 0 )
+    select_project(project_name_list[0]);
 
   $('.collapsible').collapsible(
   {
@@ -74,71 +88,99 @@ $(document).ready(function()
 
   $('#project_list').on('click', '.project', function()
   {
-    if ( selected_project != null )
-      selected_project.save();
     var selected_project_title = $(this).find('.title').text();
-    selected_project = project_dict[selected_project_title];
-    $('#selected_project_title').text(selected_project_title)
-    $('#todo_list').empty()
-    for ( var todo_item of selected_project.todos ) {
-      $('#todo_list').append( todo_item_html(todo_item) );
-    }
+    select_project(selected_project_title)
+  })
+  .on('mouseenter', '.project', function()
+  {
+    $(this).find('.project_remove').removeClass('scale-out');
+  })
+  .on('mouseleave', '.project', function()
+  {
+    $(this).find('.project_remove').addClass('scale-out');
+  });
+
+  $('.project').on('click', '.project_remove', function()
+  {
+    var title = $(this).parent().find('.title').text();
+    $(this).parent().remove();
+    projects[title].remove();
+    delete projects[title];
+    localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
+  });
+
+  /**
+   * Fixed ACtion Button
+   */
+  $('.fixed-action-btn').on('click', '#add_todo', function()
+  {
+    $('#todo_modal_title').val('');
+    $('#todo_modal_description').val('');
+    $('#todo_modal').modal('open');
+  })
+  .on('click', '#add_file', function()
+  {
+    $('#file_modal').modal('open');
+  })
+  .on('click', '#add_folder', function()
+  {
+    $('#folder_modal').modal('open');
+  })
+  .on('click', '#add_project', function()
+  {
+    $('#project_modal_title').val('');
+    $('#project_modal').modal('open');
   })
 
+  /**
+   * Modals
+   */
   $('#todo_modal').modal({
     ready: function(modal, trigger)
     { // Callback for Modal open. Modal and trigger parameters available.
-      console.log("Ready");
     },
     complete: function()
     { // Callback for Modal close
-      var title = $('#todo_title').val(),
-          description = $('#todo_description').val(),
+      var title = $('#todo_modal_title').val(),
+          description = $('#todo_modal_description').val(),
           new_todo_item = new TodoItem(title, description);
       if ( selected_project && selected_project.todos )
         selected_project.addTodo(new_todo_item);
       $('#todo_list').append( todo_item_html(new_todo_item) );
-      console.log('Closed');
     }
   });
 
   $('#folder_modal').modal({
     ready: function(modal, trigger)
     { // Callback for Modal open. Modal and trigger parameters available.
-      console.log("Ready");
     },
     complete: function()
     { // Callback for Modal close
-      console.log('Closed');
     }
   });
 
   $('#file_modal').modal({
     ready: function(modal, trigger)
     { // Callback for Modal open. Modal and trigger parameters available.
-      console.log("Ready");
     },
     complete: function()
     { // Callback for Modal close
-      console.log('Closed');
     }
   });
 
   $('#project_modal').modal({
     ready: function(modal, trigger)
     { // Callback for Modal open. Modal and trigger parameters available.
-      console.log("Ready");
     },
     complete: function()
     { // Callback for Modal close
-      var title = $('#project_title').val();
-      if ( !project_dict.hasOwnProperty(title) ) {
+      var title = $('#project_modal_title').val();
+      if ( !projects.hasOwnProperty(title) ) {
         var new_project = new Project(title);
-        project_dict[title] = new_project;
-        localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(project_dict) ) );
+        projects[title] = new_project;
+        localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
         $('#project_list').append( project_html(new_project) );
       }
-      console.log('Closed');
     }
   });
 });
