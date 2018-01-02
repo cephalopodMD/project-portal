@@ -12,9 +12,8 @@ var select_project = function(p_name)
   selected_project = projects[p_name];
   $('#selected_project_title').text(p_name)
   $('#todo_list').empty()
-  for ( var todo_item of selected_project.todos ) {
-    $('#todo_list').append( todo_item_html(todo_item) );
-  }
+  for ( var t in selected_project.todos )
+    $('#todo_list').append( todo_item_html(selected_project.todos[t]) );
 }
 
 $(document).ready(function()
@@ -52,14 +51,15 @@ $(document).ready(function()
     }
   });
 
-  $('#todo_list').on('click', '.todo', function()
+  $('#todo_list')
+  .on('click', '.todo', function()
   {
     var title = $(this).find('.title'),
         status = $(this).find('.status'),
         todo_item;
-    for ( var t of selected_project.todos )
-      if ( t.title = title.text() )
-        todo_item = t;
+    for ( var t in selected_project.todos )
+      if ( selected_project.todos[t].title = title.text() )
+        todo_item = selected_project.todos[t];
     if ( todo_item.status == TodoItem.NEW ) {
       status.removeClass('grey');
       status.addClass('blue');
@@ -76,6 +76,16 @@ $(document).ready(function()
       status.text('radio_button_unchecked');
       todo_item.status = TodoItem.NEW;
     }
+    selected_project.save()
+  })
+  .on('click', '.edit', function(e)
+  {
+    e.stopPropagation();
+    $('#todo_modal_id').val( $(this).parent().find('.todo_id').text() );
+    $('#todo_modal_title').val( $(this).parent().find('.todo_title').text() );
+    $('#todo_modal_description').val( $(this).parent().find('.todo_description').text() );
+    Materialize.updateTextFields();
+    $('#todo_modal').modal('open');
   })
   .on('mouseenter', '.todo', function()
   {
@@ -86,7 +96,8 @@ $(document).ready(function()
     $(this).find('.edit').addClass('scale-out');
   });
 
-  $('#project_list').on('click', '.project', function()
+  $('#project_list')
+  .on('click', '.project', function()
   {
     var selected_project_title = $(this).find('.title').text();
     select_project(selected_project_title)
@@ -100,7 +111,8 @@ $(document).ready(function()
     $(this).find('.project_remove').addClass('scale-out');
   });
 
-  $('.project').on('click', '.project_remove', function()
+  $('.project')
+  .on('click', '.project_remove', function()
   {
     var title = $(this).parent().find('.title').text();
     $(this).parent().remove();
@@ -141,12 +153,13 @@ $(document).ready(function()
     },
     complete: function()
     { // Callback for Modal close
-      var title = $('#todo_modal_title').val(),
+      var id = $('#todo_modal_id').val(),
+          title = $('#todo_modal_title').val(),
           description = $('#todo_modal_description').val(),
-          new_todo_item = new TodoItem(title, description);
+          new_todo_item = new TodoItem(id, title, description);
       if ( selected_project && selected_project.todos )
         selected_project.addTodo(new_todo_item);
-      $('#todo_list').append( todo_item_html(new_todo_item) );
+      select_project( selected_project.title );
     }
   });
 

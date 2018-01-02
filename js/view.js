@@ -16,11 +16,12 @@ var todo_item_html = function(todo_item)
   }
   return '\
         <li class="collection-item avatar waves-effect todo">\
+          <span class="todo_id hide">'+todo_item.id+'</span>\
           <i class="material-icons circle '+color+' status">'+icon+'</i>\
           <p>\
-            <span class="title">'+todo_item.title+'</span>\
+            <span class="title todo_title">'+todo_item.title+'</span>\
             </br>\
-            '+todo_item.description+'\
+            <span class="todo_description">'+todo_item.description+'</span>\
           </p>\
           <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>\
         </li>'

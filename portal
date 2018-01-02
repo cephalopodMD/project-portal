@@ -2,8 +2,6 @@
 <html>
 
 <head>
-<!--Import Google Icon Font-->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!--Import materialize.css-->
 <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
 <link type="text/css" rel="stylesheet" href="css/custom.css"/>
@@ -110,6 +108,7 @@
   <div id="todo_modal" class="modal">
     <div class="modal-content">
       <h4>ToDo Item:</h4>
+      <input id="todo_modal_id" type="hidden" class="validate" value=0>
       <div class="input-field">
         <input id="todo_modal_title" type="text" class="validate">
         <label for="todo_modal_title">Title</label>

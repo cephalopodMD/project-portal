@@ -15,6 +15,7 @@ class Project
         this.file_list = local.file_list;
         this.folder_list = local.folder_list;
         this.todos = local.todos;
+        this.todo_id_count = local.todo_id_count;
       } catch (e) {
         this.init(title);
       }
@@ -36,14 +37,24 @@ class Project
     this.title = title;
     this.file_list = [];
     this.folder_list = [];
-    this.todos = [];
+    this.todos = {};
+    this.todo_id_count = 0;
 
     this.save()
   }
 
   addTodo( todo )
   {
-    this.todos.push(todo);
+    if ( todo.id == 0 || !this.todos.hasOwnProperty(todo.id) )
+    {
+      todo.id = ++this.todo_id_count;
+      this.todos[todo.id] = todo;
+    }
+    else {
+      var old_todo = this.todos[todo.id];
+      old_todo.title = todo.title;
+      old_todo.description = todo.description;
+    }
     this.save();
   }
 
@@ -64,8 +75,9 @@ class Project
 
 class TodoItem
 {
-  constructor(title, description)
+  constructor(id, title, description)
   {
+    this.id = id;
     this.title = title;
     this.description = description;
     this.status = TodoItem.NEW;
