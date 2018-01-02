@@ -12,6 +12,12 @@
 
 <body>
   <!--Import jQuery before materialize.js-->
+  <script>
+  window.nodeRequire = require;
+  delete window.require;
+  delete window.exports;
+  delete window.module;
+  </script>
   <script src="js/jquery.js"></script>
   <script src="js/materialize.js"></script>
   <script src='js/model.js'></script>

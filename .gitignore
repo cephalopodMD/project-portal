@@ -1,1 +1,2 @@
-electron-quick-start/*
+node_modules/
+package-lock.json
