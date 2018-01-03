@@ -5,17 +5,6 @@ var local_list = [],
     projects = {},
     selected_project = null;
 
-var select_project = function(p_name)
-{
-  if ( selected_project != null )
-    selected_project.save();
-  selected_project = projects[p_name];
-  $('#selected_project_title').text(p_name)
-  $('#todo_list').empty()
-  for ( var t in selected_project.todos )
-    $('#todo_list').append( todo_item_html(selected_project.todos[t]) );
-}
-
 $(document).ready(function()
 {
   local_list = localStorage.getItem('project_portal_list');
@@ -42,24 +31,22 @@ $(document).ready(function()
     onOpen: function(el)
     {
       $(el).find('#expand').addClass('scale-out');
-      //$(el).find('#expand').text('expand_less');
+      $(el).find('#contract').removeClass('scale-out');
     },
     onClose: function(el)
     {
       $(el).find('#expand').removeClass('scale-out');
-      //$(el).find('#expand').text('expand_more');
+      $(el).find('#contract').addClass('scale-out');
     }
   });
 
   $('#todo_list')
   .on('click', '.todo', function()
   {
-    var title = $(this).find('.title'),
+    var id = $(this).find('.todo_id').text(),
         status = $(this).find('.status'),
         todo_item;
-    for ( var t in selected_project.todos )
-      if ( selected_project.todos[t].title = title.text() )
-        todo_item = selected_project.todos[t];
+    todo_item = selected_project.todos[id];
     if ( todo_item.status == TodoItem.NEW ) {
       status.removeClass('grey');
       status.addClass('blue');
@@ -105,10 +92,12 @@ $(document).ready(function()
   .on('mouseenter', '.project', function()
   {
     $(this).find('.project_remove').removeClass('scale-out');
+    $(this).removeClass('darken-3').addClass('darken-2');
   })
   .on('mouseleave', '.project', function()
   {
     $(this).find('.project_remove').addClass('scale-out');
+    $(this).removeClass('darken-2').addClass('darken-3');
   });
 
   $('.project')
@@ -197,3 +186,14 @@ $(document).ready(function()
     }
   });
 });
+
+var select_project = function(p_name)
+{
+if ( selected_project != null )
+selected_project.save();
+selected_project = projects[p_name];
+$('#selected_project_title').text(p_name)
+$('#todo_list').empty()
+for ( var t in selected_project.todos )
+$('#todo_list').append( todo_item_html(selected_project.todos[t]) );
+}
