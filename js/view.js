@@ -16,9 +16,9 @@ var todo_item_html = function(todo_item)
   }
   return '\
         <li class="collection-item avatar waves-effect todo">\
-          <span class="todo_id hide">'+todo_item.id+'</span>\
           <i class="material-icons circle '+color+' status">'+icon+'</i>\
           <p>\
+            <span class="todo_id hide">'+todo_item.id+'</span>\
             <span class="title todo_title">'+todo_item.title+'</span>\
             </br>\
             <span class="todo_description">'+todo_item.description+'</span>\
@@ -38,4 +38,28 @@ var project_html = function(project)
           <i class="material-icons white-text secondary-content scale-transition scale-out project_remove" style="margin-left: auto; margin-right: 0;">close</i>\
         </li>'
   return result;
+}
+
+var file_html = function(file_name)
+{
+  return '<li href="#" class="file_item collection-item avatar">\
+    <i class="material-icons circle red">insert_chart</i>\
+    <p>\
+      <span class="title">'+file_name.split('\\').pop()+'</span>\
+      </br>\
+      <span class="grey-text full_name">'+file_name+'</span>\
+    </p>\
+  </li>'
+}
+
+var asset_folder_html = function(asset_folder_name)
+{
+  return '<li class="asset_folder_item collection-item avatar">\
+    <i class="material-icons circle gree">insert_chart</i>\
+    <p>\
+      <span class="title">'+asset_folder_name.split('\\').pop()+'</span>\
+      </br>\
+      <span class="grey-text full_name">'+asset_folder_name+'</span>\
+    </p>\
+  </li>'
 }

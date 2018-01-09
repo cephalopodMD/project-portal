@@ -13,10 +13,10 @@
 <body>
   <!--Import jQuery before materialize.js-->
   <script>
-  window.nodeRequire = require;
-  delete window.require;
-  delete window.exports;
-  delete window.module;
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
   </script>
   <script src="js/jquery.js"></script>
   <script src="js/materialize.js"></script>
@@ -59,7 +59,8 @@
             </div>
           </div>
           <div class="collapsible-body">
-            <span>Lorem ipsum dolor sit amet.</span>
+            <ul id="file_list" class='collection black-text'>
+            </ul>
           </div>
         </li>
         <li>
@@ -72,7 +73,8 @@
             </div>
           </div>
           <div class="collapsible-body">
-            <span>Lorem ipsum dolor sit amet.</span>
+            <ul id="asset_list" class='collection black-text'>
+            </ul
           </div>
         </li>
       </ul>
@@ -94,22 +96,22 @@
     </a>
     <ul>
       <li id='add_todo' class='tooltipped' data-position="left" data-delay="10" data-tooltip="ToDo">
-        <a class="btn-floating blue waves-effect waves-light modal-trigger z-depth-2">
+        <a class="btn-floating blue waves-effect waves-light z-depth-2">
           <i class="material-icons">mode_edit</i>
         </a>
       </li>
-      <li id='add_folder' class='tooltipped' data-position="left" data-delay="10" data-tooltip="Folder">
-        <a class="btn-floating green waves-effect waves-light modal-trigger z-depth-2">
+      <li id='add_asset_folder' class='tooltipped' data-position="left" data-delay="10" data-tooltip="Asset Folder">
+        <a class="btn-floating green waves-effect waves-light z-depth-2">
           <i class="material-icons">folder_open</i>
         </a>
       </li>
       <li id='add_file' class='tooltipped' data-position="left" data-delay="10" data-tooltip="File">
-        <a class="btn-floating red waves-effect waves-light modal-trigger z-depth-2">
+        <a class="btn-floating red waves-effect waves-light z-depth-2">
           <i class="material-icons">insert_drive_file</i>
         </a>
       </li>
       <li id='add_project' class='tooltipped' data-position="left" data-delay="10" data-tooltip="Project">
-        <a class="btn-floating blue waves-effect waves-light modal-trigger z-depth-2">
+        <a class="btn-floating blue waves-effect waves-light z-depth-2">
           <i class="material-icons">dashboard</i>
         </a>
       </li>
@@ -135,7 +137,7 @@
     </div>
   </div>
 
-  <div id="folder_modal" class="modal">
+  <div id="asset_folder_modal" class="modal">
     <div class="modal-content">
       <h4>Modal Header</h4>
       <p>A bunch of text</p>

@@ -11,15 +11,28 @@ class Project
     {
       try {
         local = JSON.parse(local);
-        this.title = local.title;
-        this.file_list = local.file_list;
-        this.folder_list = local.folder_list;
-        this.todos = local.todos;
-        this.todo_id_count = local.todo_id_count;
+        this.title              = local.title;
+        this.file_list          = local.file_list;
+        this.asset_folder_list  = local.asset_folder_list;
+        this.todo_id_count      = local.todo_id_count;
+        this.todos              = {}
+        for ( var id in local.todos )
+          this.todos[id] = new TodoItem(local.todos[id]);
       } catch (e) {
         this.init(title);
       }
     }
+  }
+
+  init(title)
+  {
+    this.title              = title;
+    this.file_list          = [];
+    this.asset_folder_list  = [];
+    this.todos              = {};
+    this.todo_id_count      = 0;
+
+    this.save()
   }
 
   save()
@@ -32,17 +45,6 @@ class Project
     localStorage.removeItem( 'project_portal:'+this.title );
   }
 
-  init(title)
-  {
-    this.title = title;
-    this.file_list = [];
-    this.folder_list = [];
-    this.todos = {};
-    this.todo_id_count = 0;
-
-    this.save()
-  }
-
   addTodo( todo )
   {
     if ( todo.id == 0 || !this.todos.hasOwnProperty(todo.id) )
@@ -50,7 +52,8 @@ class Project
       todo.id = ++this.todo_id_count;
       this.todos[todo.id] = todo;
     }
-    else {
+    else
+    {
       var old_todo = this.todos[todo.id];
       old_todo.title = todo.title;
       old_todo.description = todo.description;
@@ -67,8 +70,8 @@ class Project
 
   addFolder( folder_name )
   {
-    if ( !this.folder_list.includes(file_name) )
-      this.folder_list.push( file_name );
+    if ( !this.asset_folder_list.includes(folder_name) )
+      this.asset_folder_list.push( folder_name );
     this.save();
   }
 }
@@ -77,21 +80,31 @@ class TodoItem
 {
   constructor(id, title, description)
   {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.status = TodoItem.NEW;
+    if( id !== null && title === undefined && description === undefined )
+    {
+      this.id = id.id;
+      this.title = id.title;
+      this.description = id.description;
+      this.status = id.status;
+    }
+    else
+    {
+      this.id = id;
+      this.title = title;
+      this.description = description;
+      this.status = TodoItem.NEW;
+    }
   }
 
   /***************************
-  * Methods for changing state
+  * Methods for managing state
   */
   setState(newState)
   {
-    this.state = newState;
+    this.status = newState;
   }
 
-  reset()
+  makeNew()
   {
     this.setState(TodoItem.NEW);
   }
@@ -101,7 +114,7 @@ class TodoItem
     this.setState(TodoItem.ACTIVE);
   }
 
-  complete()
+  makeComplete()
   {
     this.setState(TodoItem.COMPLETE);
   }

@@ -1,20 +1,32 @@
 'use strict';
 
-var local_list = [],
-    project_name_list = [],
-    projects = {},
-    selected_project = null;
+var project_name_list = [],
+projects = {},
+selected_project = null;
+
+const electron = nodeRequire('electron')
+const remote = electron.remote
+
+function selectDirectory() {
+  return remote.dialog.showOpenDialog( {properties: ['openDirectory']} )
+}
+
+function selectFile() {
+  return remote.dialog.showOpenDialog( {properties: ['openFile']} )
+}
 
 $(document).ready(function()
 {
-  local_list = localStorage.getItem('project_portal_list');
-  if ( local_list === null ) {
-    localStorage.setItem( 'project_portal_list', JSON.stringify( project_name_list) );
+  project_name_list = localStorage.getItem('project_portal_list');
+  if ( project_name_list === null ) {
+    project_name_list = []
+    localStorage.setItem( 'project_portal_list', JSON.stringify([]) );
   } else {
     try {
-      project_name_list = JSON.parse(local_list);
+      project_name_list = JSON.parse(project_name_list);
     } catch (e) {
-      localStorage.setItem( 'project_portal_list', JSON.stringify( project_name_list ) );
+      project_name_list = []
+      localStorage.setItem( 'project_portal_list', JSON.stringify([]) );
     }
   }
   for ( var project_name of project_name_list ) {
@@ -45,23 +57,16 @@ $(document).ready(function()
   {
     var id = $(this).find('.todo_id').text(),
         status = $(this).find('.status'),
-        todo_item;
-    todo_item = selected_project.todos[id];
+        todo_item = selected_project.todos[id];
     if ( todo_item.status == TodoItem.NEW ) {
-      status.removeClass('grey');
-      status.addClass('blue');
-      status.text('radio_button_checked');
-      todo_item.status = TodoItem.ACTIVE;
+      status.removeClass('grey').addClass('blue').text('radio_button_checked');
+      todo_item.makeActive();
     } else if ( todo_item.status == TodoItem.ACTIVE ) {
-      status.removeClass('blue');
-      status.addClass('green');
-      status.text('check');
-      todo_item.status = TodoItem.COMPLETE;
+      status.removeClass('blue').addClass('green').text('check');
+      todo_item.makeComplete();
     } else if ( todo_item.status == TodoItem.COMPLETE ) {
-      status.removeClass('green');
-      status.addClass('grey');
-      status.text('radio_button_unchecked');
-      todo_item.status = TodoItem.NEW;
+      status.removeClass('green').addClass('grey').text('radio_button_unchecked');
+      todo_item.makeNew();
     }
     selected_project.save()
   })
@@ -89,6 +94,15 @@ $(document).ready(function()
     var selected_project_title = $(this).find('.title').text();
     select_project(selected_project_title)
   })
+  .on('click', '.project_remove', function(e)
+  {
+    e.stopPropagation();
+    var title = $(this).parent().find('.title').text();
+    $(this).parent().remove();
+    projects[title].remove();
+    delete projects[title];
+    localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
+  })
   .on('mouseenter', '.project', function()
   {
     $(this).find('.project_remove').removeClass('scale-out');
@@ -100,36 +114,49 @@ $(document).ready(function()
     $(this).removeClass('darken-2').addClass('darken-3');
   });
 
-  $('.project')
-  .on('click', '.project_remove', function()
-  {
-    var title = $(this).parent().find('.title').text();
-    $(this).parent().remove();
-    projects[title].remove();
-    delete projects[title];
-    localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
+  $('.file_item').click( function() {
+    var file_name = $(this).find('.full_name').text()
+    remote.shell.openItem(file_name.replace(/\\/g, '/'))
+  });
+
+  $('.asset_folder_item').click( function() {
+    var asset_folder = $(this).find('.full_name').text()
+    remote.shell.openItem(asset_folder.replace(/\\/g, '/'))
   });
 
   /**
-   * Fixed ACtion Button
+   * Fixed Action Button
    */
-  $('.fixed-action-btn').on('click', '#add_todo', function()
+  $('.fixed-action-btn')
+  .on('click', '#add_todo', function()
   {
     $('#todo_modal_title').val('');
     $('#todo_modal_description').val('');
+    Materialize.updateTextFields();
     $('#todo_modal').modal('open');
   })
   .on('click', '#add_file', function()
   {
-    $('#file_modal').modal('open');
+    //Materialize.updateTextFields();
+    //$('#file_modal').modal('open');
+    var file = selectFile()[0];
+    $('#file_list').append( file_html(file) );
+    selected_project.addFile(file);
+    selected_project.save();
   })
-  .on('click', '#add_folder', function()
+  .on('click', '#add_asset_folder', function()
   {
-    $('#folder_modal').modal('open');
+    //Materialize.updateTextFields();
+    //$('#asset_folder_modal').modal('open');
+    var asset_folder = selectDirectory()[0];
+    $('#assets_list').append( asset_folder_html(asset_folder) );
+    selected_project.addFolder(asset_folder);
+    selected_project.save();
   })
   .on('click', '#add_project', function()
   {
     $('#project_modal_title').val('');
+    Materialize.updateTextFields();
     $('#project_modal').modal('open');
   })
 
@@ -152,9 +179,12 @@ $(document).ready(function()
     }
   });
 
-  $('#folder_modal').modal({
+  $('#asset_folder_modal').modal({
     ready: function(modal, trigger)
     { // Callback for Modal open. Modal and trigger parameters available.
+      //var asset_folder = selectDirectory()[0];
+      //$('#assets_list').append( asset_folder_html(asset_folder) );
+      //select_project.addFolder(asset_folder);
     },
     complete: function()
     { // Callback for Modal close
@@ -164,6 +194,9 @@ $(document).ready(function()
   $('#file_modal').modal({
     ready: function(modal, trigger)
     { // Callback for Modal open. Modal and trigger parameters available.
+      //var file = selectFile()[0];
+      //$('#file_list').append( file_html(file) );
+      //select_project.addFile(file);
     },
     complete: function()
     { // Callback for Modal close
@@ -177,11 +210,13 @@ $(document).ready(function()
     complete: function()
     { // Callback for Modal close
       var title = $('#project_modal_title').val();
-      if ( !projects.hasOwnProperty(title) ) {
+      if ( !projects.hasOwnProperty(title) )
+      {
         var new_project = new Project(title);
         projects[title] = new_project;
         localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
         $('#project_list').append( project_html(new_project) );
+        select_project( title );
       }
     }
   });
@@ -189,11 +224,17 @@ $(document).ready(function()
 
 var select_project = function(p_name)
 {
-if ( selected_project != null )
-selected_project.save();
-selected_project = projects[p_name];
-$('#selected_project_title').text(p_name)
-$('#todo_list').empty()
-for ( var t in selected_project.todos )
-$('#todo_list').append( todo_item_html(selected_project.todos[t]) );
+  if ( selected_project !== null )
+    selected_project.save();
+  selected_project = projects[p_name];
+  $('#selected_project_title').text(p_name)
+  $('#todo_list').empty()
+  for ( var t in selected_project.todos )
+    $('#todo_list').append( todo_item_html(selected_project.todos[t]) );
+  $('#file_list').empty();
+  for ( var f of selected_project.file_list )
+    $('#file_list').append( file_html(f) );
+  $('#asset_list').empty();
+  for ( var f of selected_project.asset_folder_list )
+    $('#asset_list').append( asset_folder_html(f) );
 }
