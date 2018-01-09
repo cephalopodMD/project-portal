@@ -47,7 +47,7 @@ var file_html = function(file_name)
     <p>\
       <span class="title">'+file_name.split('\\').pop()+'</span>\
       </br>\
-      <span class="grey-text full_name">'+file_name+'</span>\
+      <span class="grey-text full_name">'+insert_drive_file+'</span>\
     </p>\
   </li>'
 }
@@ -59,7 +59,7 @@ var asset_folder_html = function(asset_folder_name)
     <p>\
       <span class="title">'+asset_folder_name.split('\\').pop()+'</span>\
       </br>\
-      <span class="grey-text full_name">'+asset_folder_name+'</span>\
+      <span class="grey-text full_name">'+folder_open+'</span>\
     </p>\
   </li>'
 }
