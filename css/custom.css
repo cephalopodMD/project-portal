@@ -24,6 +24,13 @@
 
 .row .col {
   min-height: 100vh;
+  max-height: 100vh;
+}
+
+.pane {
+  max-height: calc( 100vh - 64px );
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .col-container {
@@ -49,4 +56,16 @@
   display: inline-block;
   text-align: center;
   margin-right: 1rem;
+}
+
+.edit {
+  text-shadow:
+    -1px -1px 0 #fff,
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff,
+    -2px -2px 0 #fff,
+     2px -2px 0 #fff,
+    -2px  2px 0 #fff,
+     2px  2px 0 #fff;
 }

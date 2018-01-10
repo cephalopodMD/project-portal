@@ -21,9 +21,9 @@ var todo_item_html = function(todo_item)
             <span class="todo_id hide">'+todo_item.id+'</span>\
             <span class="title todo_title">'+todo_item.title+'</span>\
             </br>\
-            <span class="todo_description">'+todo_item.description+'</span>\
+            <span class="todo_description grey-text">'+todo_item.description+'</span>\
           </p>\
-          <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>\
+          <i class="material-icons secondary-content scale-transition scale-out edit" style="margin-right:0">mode_edit</i>\
         </li>'
 }
 
@@ -43,11 +43,11 @@ var project_html = function(project)
 var file_html = function(file_name)
 {
   return '<li href="#" class="file_item collection-item avatar">\
-    <i class="material-icons circle red">insert_chart</i>\
+    <i class="material-icons circle red">insert_drive_file</i>\
     <p>\
       <span class="title">'+file_name.split('\\').pop()+'</span>\
       </br>\
-      <span class="grey-text full_name">'+insert_drive_file+'</span>\
+      <span class="grey-text full_name">'+file_name+'</span>\
     </p>\
   </li>'
 }
@@ -55,11 +55,11 @@ var file_html = function(file_name)
 var asset_folder_html = function(asset_folder_name)
 {
   return '<li class="asset_folder_item collection-item avatar">\
-    <i class="material-icons circle gree">insert_chart</i>\
+    <i class="material-icons circle gree">folder_open</i>\
     <p>\
       <span class="title">'+asset_folder_name.split('\\').pop()+'</span>\
       </br>\
-      <span class="grey-text full_name">'+folder_open+'</span>\
+      <span class="grey-text full_name">'+asset_folder_name+'</span>\
     </p>\
   </li>'
 }
