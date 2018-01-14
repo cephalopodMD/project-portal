@@ -1,6 +1,6 @@
 'use strict';
 
-var todo_item_html = function(todo_item)
+function todoItemHtml(todo_item)
 {
   var color = 'red',
       icon = '';
@@ -23,11 +23,11 @@ var todo_item_html = function(todo_item)
             </br>\
             <span class="todo_description grey-text">'+todo_item.description+'</span>\
           </p>\
-          <i class="material-icons secondary-content scale-transition scale-out edit" style="margin-right:0">mode_edit</i>\
+          <i class="material-icons secondary-content scale-transition scale-out edit">mode_edit</i>\
         </li>'
 }
 
-var project_html = function(project)
+function projectHtml(project)
 {
   var result = '\
         <li class="collection-item grey darken-3 waves-effect waves-light project">';
@@ -40,7 +40,7 @@ var project_html = function(project)
   return result;
 }
 
-var file_html = function(file_name)
+function fileHtml(file_name)
 {
   return '<li href="#" class="file_item collection-item avatar">\
     <i class="material-icons circle red">insert_drive_file</i>\
@@ -48,11 +48,12 @@ var file_html = function(file_name)
       <span class="title">'+file_name.split('\\').pop()+'</span>\
       </br>\
       <span class="grey-text full_name">'+file_name+'</span>\
+      <i class="material-icons secondary-content scale-transition scale-out file_remove">close</i>\
     </p>\
   </li>'
 }
 
-var asset_folder_html = function(asset_folder_name)
+function assetFolder_html(asset_folder_name)
 {
   return '<li class="asset_folder_item collection-item avatar">\
     <i class="material-icons circle gree">folder_open</i>\
@@ -60,6 +61,7 @@ var asset_folder_html = function(asset_folder_name)
       <span class="title">'+asset_folder_name.split('\\').pop()+'</span>\
       </br>\
       <span class="grey-text full_name">'+asset_folder_name+'</span>\
+      <i class="material-icons secondary-content scale-transition scale-out asset_folder_remove">close</i>\
     </p>\
   </li>'
 }

@@ -37,6 +37,10 @@
   margin-bottom:0;
 }
 
+.collapsible-body {
+  padding: 1rem;
+}
+
 .collection, .collapsible {
   border:none;
 }
@@ -58,14 +62,28 @@
   margin-right: 1rem;
 }
 
-.edit {
+.collection .collection-item.avatar .secondary-content {
+  margin-right: 0;
+  top: 10px;
   text-shadow:
-    -1px -1px 0 #fff,
-     1px -1px 0 #fff,
-    -1px  1px 0 #fff,
-     1px  1px 0 #fff,
-    -2px -2px 0 #fff,
-     2px -2px 0 #fff,
-    -2px  2px 0 #fff,
-     2px  2px 0 #fff;
+    -1px -1px 0 rgba(255, 255, 255, .25),
+     1px -1px 0 rgba(255, 255, 255, .25),
+    -1px  1px 0 rgba(255, 255, 255, .25),
+     1px  1px 0 rgba(255, 255, 255, .25),
+    -2px  0px 0 rgba(255, 255, 255, .25),
+     2px  0px 0 rgba(255, 255, 255, .25),
+     0px -2px 0 rgba(255, 255, 255, .25),
+     0px  2px 0 rgba(255, 255, 255, .25),
+    -2px -2px 0 rgba(255, 255, 255, .25),
+     2px -2px 0 rgba(255, 255, 255, .25),
+    -2px  2px 0 rgba(255, 255, 255, .25),
+     2px  2px 0 rgba(255, 255, 255, .25),
+    -4px  0px 0 rgba(255, 255, 255, .25),
+     4px  0px 0 rgba(255, 255, 255, .25),
+     0px -4px 0 rgba(255, 255, 255, .25),
+     0px  4px 0 rgba(255, 255, 255, .25);
+}
+
+.full_name {
+  word-break: break-all;
 }

@@ -32,10 +32,10 @@ $(document).ready(function()
   for ( var project_name of project_name_list ) {
     var project = new Project(project_name);
     projects[project_name] = project;
-    $('#project_list').append( project_html(project) )
+    $('#project_list').append( projectHtml(project) )
   }
   if ( project_name_list.length > 0 )
-    select_project(project_name_list[0]);
+    loadProject(project_name_list[0]);
 
   $('.collapsible').collapsible(
   {
@@ -92,7 +92,7 @@ $(document).ready(function()
   .on('click', '.project', function()
   {
     var selected_project_title = $(this).find('.title').text();
-    select_project(selected_project_title)
+    loadProject(selected_project_title)
   })
   .on('click', '.project_remove', function(e)
   {
@@ -114,14 +114,46 @@ $(document).ready(function()
     $(this).removeClass('darken-2').addClass('darken-3');
   });
 
-  $('.file_item').click( function() {
+  $('#file_list')
+  .on('click', '.file_item', function() {
     var file_name = $(this).find('.full_name').text()
     remote.shell.openItem(file_name.replace(/\\/g, '/'))
+  })
+  .on('mouseenter', '.file_item', function()
+  {
+    $(this).find('.file_remove').removeClass('scale-out');
+  })
+  .on('mouseleave', '.file_item', function()
+  {
+    $(this).find('.file_remove').addClass('scale-out');
+  })
+  .on('click', '.file_remove', function(e)
+  {
+    e.stopPropagation();
+    var file = $(this).parent().find('.full_name').text();
+    selected_project.removeFile(file);
+    $(this).parent().parent().remove();
   });
 
-  $('.asset_folder_item').click( function() {
+  $('#asset_list')
+  .on('click', '.asset_folder_item', function() {
     var asset_folder = $(this).find('.full_name').text()
     remote.shell.openItem(asset_folder.replace(/\\/g, '/'))
+  })
+  .on('mouseenter', '.asset_folder_item', function()
+  {
+    $(this).find('.asset_folder_remove').removeClass('scale-out');
+  })
+  .on('mouseleave', '.asset_folder_item', function()
+  {
+    $(this).find('.asset_folder_remove').addClass('scale-out');
+  })
+  .on('click', '.asset_folder_remove', function(e)
+  {
+    e.stopPropagation();
+    var folder = $(this).parent().find('.full_name').text();
+    selected_project.removeFolder(folder);
+    $(this).parent().parent().remove();
   });
 
   /**
@@ -140,7 +172,7 @@ $(document).ready(function()
     //Materialize.updateTextFields();
     //$('#file_modal').modal('open');
     var file = selectFile()[0];
-    $('#file_list').append( file_html(file) );
+    $('#file_list').append( fileHtml(file) );
     selected_project.addFile(file);
     selected_project.save();
   })
@@ -149,7 +181,7 @@ $(document).ready(function()
     //Materialize.updateTextFields();
     //$('#asset_folder_modal').modal('open');
     var asset_folder = selectDirectory()[0];
-    $('#assets_list').append( asset_folder_html(asset_folder) );
+    $('#asset_list').append( assetFolderHtml(asset_folder) );
     selected_project.addFolder(asset_folder);
     selected_project.save();
   })
@@ -175,31 +207,8 @@ $(document).ready(function()
           new_todo_item = new TodoItem(id, title, description);
       if ( selected_project && selected_project.todos )
         selected_project.addTodo(new_todo_item);
-      select_project( selected_project.title );
-    }
-  });
-
-  $('#asset_folder_modal').modal({
-    ready: function(modal, trigger)
-    { // Callback for Modal open. Modal and trigger parameters available.
-      //var asset_folder = selectDirectory()[0];
-      //$('#assets_list').append( asset_folder_html(asset_folder) );
-      //select_project.addFolder(asset_folder);
-    },
-    complete: function()
-    { // Callback for Modal close
-    }
-  });
-
-  $('#file_modal').modal({
-    ready: function(modal, trigger)
-    { // Callback for Modal open. Modal and trigger parameters available.
-      //var file = selectFile()[0];
-      //$('#file_list').append( file_html(file) );
-      //select_project.addFile(file);
-    },
-    complete: function()
-    { // Callback for Modal close
+      // TODO: simplify to appending todo html
+      loadProject( selected_project.title );
     }
   });
 
@@ -215,14 +224,14 @@ $(document).ready(function()
         var new_project = new Project(title);
         projects[title] = new_project;
         localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
-        $('#project_list').append( project_html(new_project) );
-        select_project( title );
+        $('#project_list').append( projectHtml(new_project) );
+        loadProject( title );
       }
     }
   });
 });
 
-var select_project = function(p_name)
+function loadProject(p_name)
 {
   if ( selected_project !== null )
     selected_project.save();
@@ -230,11 +239,11 @@ var select_project = function(p_name)
   $('#selected_project_title').text(p_name)
   $('#todo_list').empty()
   for ( var t in selected_project.todos )
-    $('#todo_list').append( todo_item_html(selected_project.todos[t]) );
+    $('#todo_list').append( todoItemHtml(selected_project.todos[t]) );
   $('#file_list').empty();
   for ( var f of selected_project.file_list )
-    $('#file_list').append( file_html(f) );
+    $('#file_list').append( fileHtml(f) );
   $('#asset_list').empty();
   for ( var f of selected_project.asset_folder_list )
-    $('#asset_list').append( asset_folder_html(f) );
+    $('#asset_list').append( assetFolderHtml(f) );
 }

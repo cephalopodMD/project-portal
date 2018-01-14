@@ -68,10 +68,22 @@ class Project
     this.save();
   }
 
+  removeFile( file_name )
+  {
+    this.file_list = this.file_list.filter(e => e !== file_name);
+    this.save();
+  }
+
   addFolder( folder_name )
   {
     if ( !this.asset_folder_list.includes(folder_name) )
       this.asset_folder_list.push( folder_name );
+    this.save();
+  }
+
+  removeFolder( folder_name )
+  {
+    this.asset_folder_list = this.asset_folder_list.filter(e => e !== folder_name);
     this.save();
   }
 }
