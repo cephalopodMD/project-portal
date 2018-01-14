@@ -30,11 +30,9 @@ function todoItemHtml(todo_item)
 function projectHtml(project)
 {
   var result = '\
-        <li class="collection-item grey darken-3 waves-effect waves-light project">';
-  if ( project.icon )
-    result += '\
-          <i class="material-icons">'+project.icon+'</i>'
-  result += '<span class="title">'+project.title+'</span>\
+        <li class="collection-item grey darken-3 waves-effect waves-light project">\
+          <i class="material-icons">'+randomIcon(project.title)+'</i>\
+          <span class="title">'+project.title+'</span>\
           <i class="material-icons white-text secondary-content scale-transition scale-out project_remove" style="margin-left: auto; margin-right: 0;">close</i>\
         </li>'
   return result;
@@ -43,7 +41,7 @@ function projectHtml(project)
 function fileHtml(file_name)
 {
   return '<li href="#" class="file_item collection-item avatar">\
-    <i class="material-icons circle red">insert_drive_file</i>\
+    <i class="material-icons circle '+randomColor(file_name)+'">'+randomIcon(file_name)+'</i>\
     <p>\
       <span class="title">'+file_name.split('\\').pop()+'</span>\
       </br>\
@@ -53,10 +51,10 @@ function fileHtml(file_name)
   </li>'
 }
 
-function assetFolder_html(asset_folder_name)
+function assetFolderHtml(asset_folder_name)
 {
   return '<li class="asset_folder_item collection-item avatar">\
-    <i class="material-icons circle gree">folder_open</i>\
+    <i class="material-icons circle '+randomColor(asset_folder_name)+'">'+randomIcon(asset_folder_name)+'</i>\
     <p>\
       <span class="title">'+asset_folder_name.split('\\').pop()+'</span>\
       </br>\
@@ -65,3 +63,42 @@ function assetFolder_html(asset_folder_name)
     </p>\
   </li>'
 }
+
+const colors = [
+  'red', 'green', 'pink', 'purple',
+  'deep-purple', 'indigo', 'blue', 'lightblue',
+  'cyan', 'teal', 'green', 'light-green',
+  'lime', 'yellow', 'amber', 'orange', 'deep-orange'
+]
+function randomColor(seed)
+// Generates a random material design color by hashing and modding a seed
+{
+  var hash = Math.abs( seed.hashCode() );
+  var i = hash % colors.length
+  return colors[i]
+}
+
+const icons = [
+  'album', 'all_inclusive', 'beach_access', 'brightness_medium',
+  'camera', 'explore', 'extension', 'filter_drama',
+  'layers', 'palette', 'terrain', 'thumb_up',
+  'toys', 'whatshot'
+]
+function randomIcon(seed)
+// Generates a random material design color by hashing and modding a seed
+{
+  var hash = Math.abs( seed.hashCode() );
+  var i = hash % icons.length
+  return icons[i]
+}
+
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};

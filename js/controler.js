@@ -37,21 +37,9 @@ $(document).ready(function()
   if ( project_name_list.length > 0 )
     loadProject(project_name_list[0]);
 
-  $('.collapsible').collapsible(
-  {
-    accordion: false,
-    onOpen: function(el)
-    {
-      $(el).find('#expand').addClass('scale-out');
-      $(el).find('#contract').removeClass('scale-out');
-    },
-    onClose: function(el)
-    {
-      $(el).find('#expand').removeClass('scale-out');
-      $(el).find('#contract').addClass('scale-out');
-    }
-  });
-
+  /**
+   * Todo List
+   */
   $('#todo_list')
   .on('click', '.todo', function()
   {
@@ -88,6 +76,9 @@ $(document).ready(function()
     $(this).find('.edit').addClass('scale-out');
   });
 
+  /**
+   * Project List
+   */
   $('#project_list')
   .on('click', '.project', function()
   {
@@ -114,6 +105,9 @@ $(document).ready(function()
     $(this).removeClass('darken-2').addClass('darken-3');
   });
 
+  /**
+   * File List
+   */
   $('#file_list')
   .on('click', '.file_item', function() {
     var file_name = $(this).find('.full_name').text()
@@ -135,6 +129,9 @@ $(document).ready(function()
     $(this).parent().parent().remove();
   });
 
+  /**
+   * Asset Folder List
+   */
   $('#asset_list')
   .on('click', '.asset_folder_item', function() {
     var asset_folder = $(this).find('.full_name').text()
@@ -169,8 +166,6 @@ $(document).ready(function()
   })
   .on('click', '#add_file', function()
   {
-    //Materialize.updateTextFields();
-    //$('#file_modal').modal('open');
     var file = selectFile()[0];
     $('#file_list').append( fileHtml(file) );
     selected_project.addFile(file);
@@ -178,8 +173,6 @@ $(document).ready(function()
   })
   .on('click', '#add_asset_folder', function()
   {
-    //Materialize.updateTextFields();
-    //$('#asset_folder_modal').modal('open');
     var asset_folder = selectDirectory()[0];
     $('#asset_list').append( assetFolderHtml(asset_folder) );
     selected_project.addFolder(asset_folder);
@@ -227,6 +220,24 @@ $(document).ready(function()
         $('#project_list').append( projectHtml(new_project) );
         loadProject( title );
       }
+    }
+  });
+
+  /**
+   * Collapsible Icon
+   */
+  $('.collapsible').collapsible(
+  {
+    accordion: false,
+    onOpen: function(el)
+    {
+      $(el).find('#expand').addClass('scale-out');
+      $(el).find('#contract').removeClass('scale-out');
+    },
+    onClose: function(el)
+    {
+      $(el).find('#expand').removeClass('scale-out');
+      $(el).find('#contract').addClass('scale-out');
     }
   });
 });
