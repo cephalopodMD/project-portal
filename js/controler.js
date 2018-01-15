@@ -1,21 +1,14 @@
 'use strict';
 
 var project_name_list = [],
-projects = {},
-selected_project = null;
+    projects = {},
+    selected_project = null;
 
-const electron = nodeRequire('electron')
-const remote = electron.remote
+const remote = nodeRequire('electron').remote,
+      fs = remote.require('fs'),
+      path = remote.require('path')
 
-function selectDirectory() {
-  return remote.dialog.showOpenDialog( {properties: ['openDirectory']} )
-}
-
-function selectFile() {
-  return remote.dialog.showOpenDialog( {properties: ['openFile']} )
-}
-
-$(document).ready(function()
+$(document).ready( function()
 {
   project_name_list = localStorage.getItem('project_portal_list');
   if ( project_name_list === null ) {
@@ -47,16 +40,22 @@ $(document).ready(function()
         status = $(this).find('.status'),
         todo_item = selected_project.todos[id];
     if ( todo_item.status == TodoItem.NEW ) {
-      status.removeClass('grey').addClass('blue').text('radio_button_checked');
       todo_item.makeActive();
     } else if ( todo_item.status == TodoItem.ACTIVE ) {
-      status.removeClass('blue').addClass('green').text('check');
       todo_item.makeComplete();
     } else if ( todo_item.status == TodoItem.COMPLETE ) {
-      status.removeClass('green').addClass('grey').text('radio_button_unchecked');
       todo_item.makeNew();
     }
+    $(this).replaceWith( todoItemHtml(todo_item) );
     selected_project.save()
+  })
+  .on('mouseenter', '.todo', function()
+  {
+    $(this).find('.edit').removeClass('scale-out');
+  })
+  .on('mouseleave', '.todo', function()
+  {
+    $(this).find('.edit').addClass('scale-out');
   })
   .on('click', '.edit', function(e)
   {
@@ -66,14 +65,6 @@ $(document).ready(function()
     $('#todo_modal_description').val( $(this).parent().find('.todo_description').text() );
     Materialize.updateTextFields();
     $('#todo_modal').modal('open');
-  })
-  .on('mouseenter', '.todo', function()
-  {
-    $(this).find('.edit').removeClass('scale-out');
-  })
-  .on('mouseleave', '.todo', function()
-  {
-    $(this).find('.edit').addClass('scale-out');
   });
 
   /**
@@ -85,6 +76,14 @@ $(document).ready(function()
     var selected_project_title = $(this).find('.title').text();
     loadProject(selected_project_title)
   })
+  .on('mouseenter', '.project', function()
+  {
+    $(this).find('.project_remove').removeClass('scale-out');
+  })
+  .on('mouseleave', '.project', function()
+  {
+    $(this).find('.project_remove').addClass('scale-out');
+  })
   .on('click', '.project_remove', function(e)
   {
     e.stopPropagation();
@@ -93,16 +92,6 @@ $(document).ready(function()
     projects[title].remove();
     delete projects[title];
     localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
-  })
-  .on('mouseenter', '.project', function()
-  {
-    $(this).find('.project_remove').removeClass('scale-out');
-    $(this).removeClass('darken-3').addClass('darken-2');
-  })
-  .on('mouseleave', '.project', function()
-  {
-    $(this).find('.project_remove').addClass('scale-out');
-    $(this).removeClass('darken-2').addClass('darken-3');
   });
 
   /**
@@ -166,17 +155,21 @@ $(document).ready(function()
   })
   .on('click', '#add_file', function()
   {
-    var file = selectFile()[0];
-    $('#file_list').append( fileHtml(file) );
-    selected_project.addFile(file);
-    selected_project.save();
+    var files = selectFile();
+    if( files == null )
+      return;
+    var file = files[0];
+    if( selected_project.addFile(file) )
+      $('#file_list').append( fileHtml(file) );
   })
   .on('click', '#add_asset_folder', function()
   {
-    var asset_folder = selectDirectory()[0];
-    $('#asset_list').append( assetFolderHtml(asset_folder) );
-    selected_project.addFolder(asset_folder);
-    selected_project.save();
+    var asset_folders = selectDirectory();
+    if( asset_folders == null )
+      return;
+    var asset_folder = asset_folders[0];
+    if( selected_project.addFolder(asset_folder) )
+      $('#asset_list').append( assetFolderHtml(asset_folder) );
   })
   .on('click', '#add_project', function()
   {
@@ -257,4 +250,66 @@ function loadProject(p_name)
   $('#asset_list').empty();
   for ( var f of selected_project.asset_folder_list )
     $('#asset_list').append( assetFolderHtml(f) );
+}
+
+function selectDirectory()
+{
+  return remote.dialog.showOpenDialog( {properties: ['openDirectory']} )
+}
+
+function selectFile()
+{
+  return remote.dialog.showOpenDialog( {properties: ['openFile']} )
+}
+
+const project_ext_list = [
+  'aaf', 'aep', 'aepx', 'ai',
+  'cel', 'edl', 'imovieproj', 'fcp',
+  'pbxproj', 'plb', 'prel', 'ppj',
+  'prproj', 'psd', 'psq', 'ses',
+  'vcxproj', 'veg', 'veg-bak', 'xcworkspace'
+]
+function autoConfig(project, root_dir)
+{
+  fs.readdirSync(root_dir).forEach(f => {
+    var f_path = path.join(root_dir, f);
+    if( fs.statSync(f_path).isDirectory() )
+    {
+      // add directory if file count > 8 and 75% composed of up to 3 filetypes
+      var dir_contents = fs.readdirSync(f_path);
+      // check directory file count
+      if( dir_contents.length < 8 )
+        return;
+      // check extensions distribution
+      var c_ext = dir_contents.reduce( (e, f_reduce) => {
+        var ext = f_reduce.split('.').pop();
+        if( e.hasOwnProperty(ext) )
+          e[ext]++;
+        else
+          e[ext] = 0;
+        return e
+      }, {});
+      var sum_top_3 = Object.values(c_ext).sort().slice(0,3).reduce((a,b)=>a+=b);
+      if( sum_top_3 >= dir_contents.length * 0.75 )
+        project.addFolder(f_path);
+    }
+    else
+    {
+      if( project_ext_list.includes( f.split('.').pop() ) )
+        project.addFile(f_path);
+    }
+  });
+  project.save();
+  loadProject( project.title );
+  return;
+}
+
+const findR = (dir, filelist = []) => {
+  fs.readdirSync(dir).forEach(file => {
+    if( fs.statSync(path.join(dir, file)).isDirectory() )
+      filelist = findR(path.join(dir, file), filelist);
+    else
+      filelist = filelist.concat(path.join(dir, file));
+  });
+  return filelist;
 }

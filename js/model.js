@@ -64,8 +64,12 @@ class Project
   addFile( file_name )
   {
     if ( !this.file_list.includes(file_name) )
+    {
       this.file_list.push( file_name );
-    this.save();
+      this.save();
+      return true;
+    }
+    return false;
   }
 
   removeFile( file_name )
@@ -77,8 +81,12 @@ class Project
   addFolder( folder_name )
   {
     if ( !this.asset_folder_list.includes(folder_name) )
+    {
       this.asset_folder_list.push( folder_name );
-    this.save();
+      this.save();
+      return true;
+    }
+    return false;
   }
 
   removeFolder( folder_name )

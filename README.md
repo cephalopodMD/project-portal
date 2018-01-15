@@ -2,7 +2,7 @@
 a dead simple, intelligent, project management app for dads
 
 ## about
-project management with an emphasis on intelligent automation, intuitive defaults, and delightful user interface design
+project management with an emphasis on intelligent automation, intuitive defaults, and delightful UX design
 
 built with electron, materialize.css, and jquery
 

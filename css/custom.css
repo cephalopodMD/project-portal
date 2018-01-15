@@ -41,7 +41,8 @@
   padding: 1rem;
 }
 
-.collection, .collapsible {
+.collection,
+.collapsible {
   border:none;
 }
 
@@ -62,26 +63,56 @@
   margin-right: 1rem;
 }
 
-.collection .collection-item.avatar .secondary-content {
+.collection-item.avatar.file_item,
+.collection-item.avatar.asset_folder_item {
+  background-color: #212121;
+  color: white;
+}
+
+.collection-item.avatar.file_item .secondary-content,
+.collection-item.avatar.asset_folder_item .secondary-content {
+  margin-right: 0;
+  top: 10px;
+  color: white;
+  text-shadow:
+    -1px -1px 0 rgba(33, 33, 33, .25),
+     1px -1px 0 rgba(33, 33, 33, .25),
+    -1px  1px 0 rgba(33, 33, 33, .25),
+     1px  1px 0 rgba(33, 33, 33, .25),
+    -2px  0px 0 rgba(33, 33, 33, .25),
+     2px  0px 0 rgba(33, 33, 33, .25),
+     0px -2px 0 rgba(33, 33, 33, .25),
+     0px  2px 0 rgba(33, 33, 33, .25),
+    -2px -2px 0 rgba(33, 33, 33, .25),
+     2px -2px 0 rgba(33, 33, 33, .25),
+    -2px  2px 0 rgba(33, 33, 33, .25),
+     2px  2px 0 rgba(33, 33, 33, .25),
+    -3px  0px 0 rgba(33, 33, 33, .25),
+     3px  0px 0 rgba(33, 33, 33, .25),
+     0px -3px 0 rgba(33, 33, 33, .25),
+     0px  3px 0 rgba(33, 33, 33, .25);
+}
+
+.collection-item.avatar .secondary-content {
   margin-right: 0;
   top: 10px;
   text-shadow:
-    -1px -1px 0 rgba(255, 255, 255, .25),
-     1px -1px 0 rgba(255, 255, 255, .25),
-    -1px  1px 0 rgba(255, 255, 255, .25),
-     1px  1px 0 rgba(255, 255, 255, .25),
-    -2px  0px 0 rgba(255, 255, 255, .25),
-     2px  0px 0 rgba(255, 255, 255, .25),
-     0px -2px 0 rgba(255, 255, 255, .25),
-     0px  2px 0 rgba(255, 255, 255, .25),
-    -2px -2px 0 rgba(255, 255, 255, .25),
-     2px -2px 0 rgba(255, 255, 255, .25),
-    -2px  2px 0 rgba(255, 255, 255, .25),
-     2px  2px 0 rgba(255, 255, 255, .25),
-    -4px  0px 0 rgba(255, 255, 255, .25),
-     4px  0px 0 rgba(255, 255, 255, .25),
-     0px -4px 0 rgba(255, 255, 255, .25),
-     0px  4px 0 rgba(255, 255, 255, .25);
+    -1px -1px 0 rgba(256, 256, 256, .25),
+     1px -1px 0 rgba(256, 256, 256, .25),
+    -1px  1px 0 rgba(256, 256, 256, .25),
+     1px  1px 0 rgba(256, 256, 256, .25),
+    -2px  0px 0 rgba(256, 256, 256, .25),
+     2px  0px 0 rgba(256, 256, 256, .25),
+     0px -2px 0 rgba(256, 256, 256, .25),
+     0px  2px 0 rgba(256, 256, 256, .25),
+    -2px -2px 0 rgba(256, 256, 256, .25),
+     2px -2px 0 rgba(256, 256, 256, .25),
+    -2px  2px 0 rgba(256, 256, 256, .25),
+     2px  2px 0 rgba(256, 256, 256, .25),
+    -3px  0px 0 rgba(256, 256, 256, .25),
+     3px  0px 0 rgba(256, 256, 256, .25),
+     0px -3px 0 rgba(256, 256, 256, .25),
+     0px  3px 0 rgba(256, 256, 256, .25);
 }
 
 .full_name {

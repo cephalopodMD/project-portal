@@ -65,10 +65,10 @@ function assetFolderHtml(asset_folder_name)
 }
 
 const colors = [
-  'red', 'green', 'pink', 'purple',
-  'deep-purple', 'indigo', 'blue', 'lightblue',
-  'cyan', 'teal', 'green', 'light-green',
-  'lime', 'yellow', 'amber', 'orange', 'deep-orange'
+  'red lighten-1', 'green lighten-1', 'pink lighten-1', 'purple lighten-1',
+  'deep-purple lighten-1', 'indigo lighten-1', 'blue lighten-1', 'lightblue lighten-1',
+  'cyan lighten-1', 'teal lighten-1', 'green lighten-1', 'light-green lighten-1',
+  'lime lighten-1', 'yellow lighten-1', 'amber lighten-1', 'orange lighten-1', 'deep-orange lighten-1'
 ]
 function randomColor(seed)
 // Generates a random material design color by hashing and modding a seed
