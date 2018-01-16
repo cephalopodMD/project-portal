@@ -2,12 +2,12 @@
 <html>
 
 <head>
-<!--Import materialize.css-->
-<link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
-<link type="text/css" rel="stylesheet" href="css/custom.css"/>
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/custom.css"/>
 
-<!--Let browser know website is optimized for mobile-->
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body>
@@ -22,6 +22,7 @@
   <script src="js/materialize.min.js"></script>
   <script src='js/model.js'></script>
   <script src='js/view.js'></script>
+  <script src='js/controler.js'></script>
 
   <!-- Navbar -->
   <div id='toolbar' class='navbar-fixed' style="position: absolute; z-index: 998;">
@@ -93,7 +94,6 @@
       </div>
     </div>
   </div>
-  <script src='js/controler.js'></script>
 
   <!-- Fixed Action Button -->
   <div class="fixed-action-btn click-to-toggle">
@@ -139,7 +139,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+      <div class="hide waves-effect waves-green btn-flat delete">Delete</div>
+      <div class="waves-effect waves-green btn-flat submit">Submit</div>
     </div>
   </div>
 
@@ -150,9 +151,21 @@
         <input id="project_modal_title" type="text" class="validate">
         <label for="project_modal_title">Title</label>
       </div>
+      <div class="file-field input-field">
+        <div class="btn folder_select">
+          <span>Folder</span>
+        </div>
+        <div class="file-path-wrapper">
+          <input id="project_modal_root" class="file-path validate" type="text" placeholder="Initializer Search Directory (optional)">
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+      <div class="hide waves-effect waves-green btn-flat delete">Delete</div>
+      <div class="waves-effect waves-green btn-flat submit">Submit</div>
+    </div>
+    <div id='project_modal_progress' class="hide progress">
+      <div class="determinate" style="width: 0%"></div>
     </div>
   </div>
 

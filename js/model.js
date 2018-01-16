@@ -61,6 +61,11 @@ class Project
     this.save();
   }
 
+  removeTodoByID( id )
+  {
+    delete this.todos[id];
+  }
+
   addFile( file_name )
   {
     if ( !this.file_list.includes(file_name) )

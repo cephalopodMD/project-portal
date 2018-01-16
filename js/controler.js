@@ -63,6 +63,7 @@ $(document).ready( function()
     $('#todo_modal_id').val( $(this).parent().find('.todo_id').text() );
     $('#todo_modal_title').val( $(this).parent().find('.todo_title').text() );
     $('#todo_modal_description').val( $(this).parent().find('.todo_description').text() );
+    $('#todo_modal').find('.delete').removeClass('hide');
     Materialize.updateTextFields();
     $('#todo_modal').modal('open');
   });
@@ -148,6 +149,7 @@ $(document).ready( function()
   $('.fixed-action-btn')
   .on('click', '#add_todo', function()
   {
+    $('#todo_modal_id').val(0);
     $('#todo_modal_title').val('');
     $('#todo_modal_description').val('');
     Materialize.updateTextFields();
@@ -181,39 +183,66 @@ $(document).ready( function()
   /**
    * Modals
    */
-  $('#todo_modal').modal({
-    ready: function(modal, trigger)
-    { // Callback for Modal open. Modal and trigger parameters available.
-    },
-    complete: function()
-    { // Callback for Modal close
-      var id = $('#todo_modal_id').val(),
-          title = $('#todo_modal_title').val(),
-          description = $('#todo_modal_description').val(),
-          new_todo_item = new TodoItem(id, title, description);
-      if ( selected_project && selected_project.todos )
-        selected_project.addTodo(new_todo_item);
-      // TODO: simplify to appending todo html
-      loadProject( selected_project.title );
+  $('#todo_modal')
+  .modal({
+    ready: function(modal, trigger) // Callback for Modal open. Modal and trigger parameters available.
+    {},
+    complete: function() // Callback for Modal close
+    {
+      $('#todo_modal').find('.delete').addClass('hide');
     }
+  })
+  .on('click', '.submit', function()
+  {
+    var id = $('#todo_modal_id').val(),
+        title = $('#todo_modal_title').val(),
+        description = $('#todo_modal_description').val(),
+        new_todo_item = new TodoItem(id, title, description);
+    if ( selected_project && selected_project.todos )
+      selected_project.addTodo(new_todo_item);
+    // TODO: simplify to appending todo html
+    loadProject( selected_project.title );
+    $('#todo_modal').modal('close');
+  })
+  .on('click', '.delete', function()
+  {
+    var id = $('#todo_modal_id').val();
+    if( id != 0 )
+      selected_project.removeTodoByID(id);
+    loadProject( selected_project.title );
+    $('#todo_modal').modal('close');
   });
 
-  $('#project_modal').modal({
-    ready: function(modal, trigger)
-    { // Callback for Modal open. Modal and trigger parameters available.
-    },
-    complete: function()
-    { // Callback for Modal close
-      var title = $('#project_modal_title').val();
-      if ( !projects.hasOwnProperty(title) )
-      {
-        var new_project = new Project(title);
-        projects[title] = new_project;
-        localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
-        $('#project_list').append( projectHtml(new_project) );
-        loadProject( title );
-      }
+  $('#project_modal')
+  .modal({
+    ready: function(modal, trigger) // Callback for Modal open. Modal and trigger parameters available.
+    {},
+    complete: function() // Callback for Modal close
+    {}
+  })
+  .on('click', '.folder_select', function()
+  {
+    $('#project_modal_root').val( selectDirectory()[0] );
+  })
+  .on('click', '.submit', function()
+  {
+    var title = $('#project_modal_title').val(),
+        root_dir = $('#project_modal_root').val();
+    if ( !projects.hasOwnProperty(title) )
+    {
+      var new_project = new Project(title);
+      projects[title] = new_project;
+      localStorage.setItem( 'project_portal_list', JSON.stringify( Object.keys(projects) ) );
+      $('#project_list').append( projectHtml(new_project) );
     }
+    if( root_dir.length > 0 )
+    {
+      $('#project_modal_progress').removeClass('hide');
+      autoConfig( new_project, root_dir );
+      $('#project_modal_progress').addClass('hide');
+    }
+    loadProject( title );
+    $('#project_modal').modal('close');
   });
 
   /**
@@ -271,7 +300,8 @@ const project_ext_list = [
 ]
 function autoConfig(project, root_dir)
 {
-  fs.readdirSync(root_dir).forEach(f => {
+  fs.readdirSync(root_dir).forEach((f, i, a) => {
+    $('.determinate').width( Math.round((i / a.length)*100)+'%' )
     var f_path = path.join(root_dir, f);
     if( fs.statSync(f_path).isDirectory() )
     {

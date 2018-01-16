@@ -29,6 +29,7 @@
 
 .pane {
   max-height: calc( 100vh - 64px );
+  padding-bottom: 80px;
   overflow-y: auto;
   overflow-x: hidden;
 }
