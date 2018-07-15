@@ -39,7 +39,7 @@
   <!-- Workspace UI -->
   <div id='workspace' class='row white-text col-container'>
 
-    <div id='project_pane' class='col s3 grey darken-3 z-depth-5' style=''>
+    <div id='project_pane' class='col s3 grey darken-3 z-depth-5 pane_frame'>
       <div class='navbar-fixed'></div>
         <div class="pane">
         <h5>Projects</h5>
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div id='file_pane' class='col s4 grey darken-4 z-depth-0' style=''>
+    <div id='file_pane' class='col s4 grey darken-4 z-depth-0 pane_frame'>
       <div class='navbar-fixed'></div>
       <div class="pane">
         <h5 id='selected_project_title'>Project Name</h5>
@@ -70,7 +70,7 @@
           <li>
             <div class="collapsible-header active grey darken-4">
               <i class="material-icons">folder</i>
-              <span>Assets</span>
+              <span>Asset Folders</span>
               <div style="position: relative; margin-left: auto;">
                 <i id='expand' class="material-icons scale-transition" style='margin-right: 0;'>expand_more</i>
                 <i id='contract' class="material-icons scale-transition scale-out" style='position: absolute; top: 0; margin-right: 0;'>expand_less</i>
@@ -78,14 +78,14 @@
             </div>
             <div class="collapsible-body">
               <ul id="asset_list" class='collection black-text'>
-              </ul
+              </ul>
             </div>
           </li>
         </ul>
       </div>
     </div>
 
-    <div id='todo_pane' class='col s5 grey darken-3 z-depth-5' style=''>
+    <div id='todo_pane' class='col s5 grey darken-3 z-depth-5 pane_frame'>
       <div class='navbar-fixed'></div>
       <div class="pane">
         <h5>ToDo:</h5>
@@ -96,7 +96,7 @@
   </div>
 
   <!-- Fixed Action Button -->
-  <div class="fixed-action-btn click-to-toggle">
+  <div id="fixed-action-btn" class="fixed-action-btn click-to-toggle">
     <a class="btn-floating btn-large z-depth-4">
       <i class="large material-icons">add</i>
     </a>
