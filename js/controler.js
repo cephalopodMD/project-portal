@@ -44,8 +44,24 @@ $(document).ready( function()
     $('.pane_frame')
     .on('mouseenter', function()
     {
-        $('#fixed-action-btn').css( 'margin-right', window.innerWidth - $(this)[0].getBoundingClientRect().right );
         active_pane = $(this)[0].id;
+        var fab = $('.fixed-action-btn');
+        fab.css( 'margin-right', window.innerWidth - $(this)[0].getBoundingClientRect().right );
+        if ( active_pane == 'project_pane' )
+        {
+            $('.btn-small').addClass('hide');
+            fab.tooltip( {tooltip:'New Project', position:'left'} )
+        }
+        else if ( active_pane == 'file_pane' )
+        {
+            $('.btn-small').removeClass('hide');
+            fab.tooltip('remove')
+        }
+        else if ( active_pane == 'todo_pane' )
+        {
+            $('.btn-small').addClass('hide');
+            fab.tooltip( {tooltip:'New ToDo', position:'left'} )
+        }
     })
     
     /**
@@ -172,13 +188,22 @@ $(document).ready( function()
      * Fixed Action Button
      */
     $('#fixed-action-btn')
-    .on('click', '#add_todo', function()
+    .on('click', function()
     {
-        $('#todo_modal_id').val(0);
-        $('#todo_modal_title').val('');
-        $('#todo_modal_description').val('');
-        Materialize.updateTextFields();
-        $('#todo_modal').modal('open');
+        if ( active_pane == 'project_pane' )
+        {
+            $('#project_modal_title').val('');
+            Materialize.updateTextFields();
+            $('#project_modal').modal('open');
+        }
+        else if ( active_pane == 'todo_pane' )
+        {
+            $('#todo_modal_id').val(0);
+            $('#todo_modal_title').val('');
+            $('#todo_modal_description').val('');
+            Materialize.updateTextFields();
+            $('#todo_modal').modal('open');
+        }
     })
     .on('click', '#add_file', function()
     {
@@ -197,12 +222,6 @@ $(document).ready( function()
         var asset_folder = asset_folders[0];
         if( selected_project.addFolder(asset_folder) )
             $('#asset_list').append( assetFolderHtml(asset_folder) );
-    })
-    .on('click', '#add_project', function()
-    {
-        $('#project_modal_title').val('');
-        Materialize.updateTextFields();
-        $('#project_modal').modal('open');
     })
 
     /**
@@ -319,7 +338,7 @@ function selectFile()
 }
 
 const project_ext_list = [
-    'aaf', 'aep', 'aepx', 'ai',
+    'aaf', 'aep', 'aepx', 'ai', 'aup',
     'cel', 'edl', 'imovieproj', 'fcp',
     'pbxproj', 'plb', 'prel', 'ppj',
     'prproj', 'psd', 'psq', 'ses',
