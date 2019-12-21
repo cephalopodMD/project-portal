@@ -4,6 +4,8 @@ a dead simple, intelligent, project management app for dads
 ## about
 project management with an emphasis on intelligent automation, intuitive defaults, and delightful UX design
 
+manage your projects, see files used in the project, asset folders, and a TODO list. files will open in your default preferred editor. great for people working on personal projects in video editing, audio production, design, school projects, etc.
+
 built with electron, materialize.css, and jquery
 
 ## install/run
