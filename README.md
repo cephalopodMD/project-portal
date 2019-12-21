@@ -1,5 +1,5 @@
 # Project Portal
-a dead simple, intelligent, project management app for dads
+a dead simple, intelligent, project management app for dads who don't code
 
 ![screencap](Annotation%202019-12-21%20014141.png?raw=true)
 
@@ -7,6 +7,8 @@ a dead simple, intelligent, project management app for dads
 project management with an emphasis on intelligent automation, intuitive defaults, and delightful UX design
 
 manage your projects, see files used in the project, asset folders, and a TODO list. files will open in your default preferred editor. great for people working on personal projects in video editing, audio production, design, school projects, etc.
+
+I made it as a christmas present for a secret santa 🎅
 
 built with electron, materialize.css, and jquery
 
