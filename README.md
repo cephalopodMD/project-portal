@@ -1,6 +1,8 @@
 # Project Portal
 a dead simple, intelligent, project management app for dads
 
+![screencap](Annotation%202019-12-21%20014141.png?raw=true)
+
 ## about
 project management with an emphasis on intelligent automation, intuitive defaults, and delightful UX design
 
